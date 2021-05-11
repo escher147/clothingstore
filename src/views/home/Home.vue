@@ -42,7 +42,7 @@
   import TabControl from 'components/content/TabControl/TabControl'
   import GoodsList from 'components/content/goods/GoodsList'
   import Scroll from 'components/common/scroll/Scroll'
-  import BackTop from 'components/content/backTop/BackTop'
+  
 
   import HomeSwiper from './childComps/HomeSwiper'
   import HomeRecommend from './childComps/HomeRecommend'
@@ -52,6 +52,7 @@
   import {getHomeMutidata,getHomeGoods} from 'network/home'
 
   import {debounce} from 'common/utils'
+  import {backTopMixin} from 'common/mixin'
   
 
   export default {
@@ -64,7 +65,6 @@
       FeatureView,
       GoodsList,
       Scroll,
-      BackTop
       
     },
 
@@ -78,12 +78,12 @@
           'sell':{page: 0,list: []},
         },
         currentType:'pop',
-        isShowBackTop:false,
         tabOffSetTop:0,
         isTabFixed:false,
         saveY:0
       }
     },
+    mixins:[backTopMixin],
     created() {
       // 请求首页的部分数据
       this.getHomeMutidata()
@@ -97,7 +97,7 @@
       // $bus默认情况下是undefined，需要给Vue.prototype.$bus赋值一个Vue实例
       const refresh = debounce(this.$refs.scroll && this.$refs.scroll.refresh,300)
       // 每次加载一张图片调用refresh函数，refresh函数执行debounce返回的函数
-      this.$bus.$on('itemImageLoad', () => {  
+      this.$bus.$on('homeItemImageLoad', () => {  
         refresh()
       })
 
@@ -152,9 +152,7 @@
         this.$refs.tabControl.currentIndex = index;
         this.$refs.tabControl2.currentIndex = index;
       },
-      backClick(){
-        this.$refs.scroll.scrollTo(0,0,500)
-      },
+      
       contentScroll(position){
         //  滚动大于1500px时显示返回顶部按钮
         this.isShowBackTop = -(position.y) > 1500

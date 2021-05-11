@@ -59,7 +59,7 @@
       },
       // refresh方法
       refresh(){
-        // console.log(1111111);
+        // console.log('-----');
         this.scroll && this.scroll.refresh()
       },
       getScrollY(){

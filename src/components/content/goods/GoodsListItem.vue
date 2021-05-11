@@ -1,6 +1,6 @@
 <template>
   <div class="goods-item" @click="goodsItemClick">
-    <img :src="goodsItem.show.img" alt="" @load="imgLoad">
+    <img :src="showImg" alt="" @load="imgLoad">
     <div class="goods-info">
       <p>{{goodsItem.title}}</p>
       <span class="price">￥{{goodsItem.price}}</span>
@@ -23,10 +23,24 @@
     },
     methods:{
       imgLoad(){
-        this.$bus.$emit('itemImageLoad')
+        // 判断给那个组件发射load事件
+        if (this.$route.path.indexOf('/home') !== -1){
+          this.$bus.$emit('homeItemImageLoad')
+          // console.log(22222);
+        } else if (this.$route.path.indexOf('/detail') !== -1){
+          this.$bus.$emit('detailItemImageLoad')
+          // console.log(11211);
+        }
+        
       },
       goodsItemClick(){
         this.$router.push('/detail/' + this.goodsItem.iid)
+      }
+    },
+    computed:{
+      showImg(){
+        // ||两边的数据顺序不能反
+        return  this.goodsItem.image|| this.goodsItem.show.img
       }
     }
     }

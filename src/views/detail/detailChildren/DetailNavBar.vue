@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-bar>
+    <nav-bar class="nav-bar">
       <template v-slot:left>
         <div class="back" @click="backClick"> 
           <img src="@/assets/img/common/back.svg" alt="">
@@ -38,6 +38,7 @@ import NavBar from '@/components/common/navbar/NavBar'
     methods:{
       titleClick(index){
         this.currentIndex = index;
+        this.$emit('titleClick',index)
       },
       backClick(){
         this.$router.back()
@@ -48,12 +49,18 @@ import NavBar from '@/components/common/navbar/NavBar'
 
 
 <style scoped>
+
+  .nav-bar {
+    position: relative;
+    z-index: 9;
+    background-color: #fff;
+  }
   .title {
     display: flex;
   }
   .title-item {
     flex: 1;
-    font-size: 12px;
+    font-size: 14px;
   }
   .active {
     color: var(--color-high-text);
